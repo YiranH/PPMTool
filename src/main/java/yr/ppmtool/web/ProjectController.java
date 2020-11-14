@@ -14,6 +14,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/project")
+@CrossOrigin
 public class ProjectController {
 //    create a new project
     @Autowired
