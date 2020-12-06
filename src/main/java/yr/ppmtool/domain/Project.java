@@ -1,6 +1,7 @@
 package yr.ppmtool.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -31,6 +32,20 @@ public class Project {
     private Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
+//  fetch: when we load a project object then the backlog information is available.
+//  cascade: the project is the owning side of the relationship. If I delete the project
+//  then everything that's a child to the project is deleted. In this case it's going to
+//  be the backlog and the project tasks. But if I delete a backlog or anything downstream
+//  it doesn't affect the project.
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
+    private Backlog backlog;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+
+    private String projectLeader;
 
     public Project() {
 
@@ -98,6 +113,30 @@ public class Project {
 
     public Date getUpdated_At() {
         return updated_At;
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getProjectLeader() {
+        return projectLeader;
+    }
+
+    public void setProjectLeader(String projectLeader) {
+        this.projectLeader = projectLeader;
     }
 
     @PrePersist

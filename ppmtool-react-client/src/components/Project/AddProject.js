@@ -78,7 +78,6 @@ class AddProject extends Component {
                                         />
                                         {errors.projectName && (
                                             <div className="invalid-feedback">{errors.projectName}</div>
-
                                         )}
                                     </div>
                                     <div className="form-group">
